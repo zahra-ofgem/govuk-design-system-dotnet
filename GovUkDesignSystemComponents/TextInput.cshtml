@@ -30,7 +30,7 @@
            pattern="@(Model.Pattern)"
            inputmode="@(Model.InputMode)"
            @(Html.Raw(Model.Attributes != null ? string.Join(" ", Model.Attributes.Select(a => a.Key + "=\"" + a.Value + "\"")) : ""))/>
-    
+    <span asp-validation-for="@(Model.Id)" class="text-danger"></span>
     @if (Model.TextInputAppendix != null)
     {
         await Html.RenderPartialAsync("/GovUkDesignSystemComponents/SubComponents/HtmlText.cshtml", Model.TextInputAppendix);
