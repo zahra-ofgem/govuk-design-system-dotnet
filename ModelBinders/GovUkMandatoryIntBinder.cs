@@ -10,6 +10,9 @@ namespace GovUkDesignSystem.ModelBinders
 {
     public class GovUkMandatoryIntBinder : IModelBinder
     {
+        public const string NameAtStartOfSentenceKey = "qq:DCC 1";
+        public const string NameWithinSentenceKey = "qq:DCC 2";
+
         private readonly string _nameAtStartOfSentence;
         private readonly string _nameInSentence;
 
@@ -27,12 +30,16 @@ namespace GovUkDesignSystem.ModelBinders
 
         public Task BindModelAsync(ModelBindingContext bindingContext)
         {
-            var defaultModelMetadata = bindingContext.ModelMetadata as DefaultModelMetadata; //qq:DCC this cast isn't great
-            var names = defaultModelMetadata.Attributes.Attributes.FirstOrDefault(a => typeof(GovUkDisplayNameForErrorsAttribute).IsAssignableFrom(a.GetType())) as GovUkDisplayNameForErrorsAttribute;
-            if (names == null)
-            {
-                throw new System.Exception("GovUkMandatoryIntBinder requires the property to also have a GovUkDisplayNameForErrors attribute");
-            }
+            //var defaultModelMetadata = bindingContext.ModelMetadata as DefaultModelMetadata; //qq:DCC this cast isn't great
+            //var names = defaultModelMetadata.Attributes.Attributes.FirstOrDefault(a => typeof(GovUkDisplayNameForErrorsAttribute).IsAssignableFrom(a.GetType())) as GovUkDisplayNameForErrorsAttribute;
+            //if (names == null)
+            //{
+            //    throw new System.Exception("GovUkMandatoryIntBinder requires the property to also have a GovUkDisplayNameForErrors attribute");
+            //}
+            //var nameWithinSentence = names.NameWithinSentence;
+            //var nameAtStartOfSentence = names.NameAtStartOfSentence;
+            var nameWithinSentence = bindingContext.ModelMetadata.AdditionalValues[NameWithinSentenceKey] as string;
+            var nameAtStartOfSentence = bindingContext.ModelMetadata.AdditionalValues[NameAtStartOfSentenceKey] as string;
 
             var modelName = bindingContext.ModelName;
 
@@ -40,7 +47,7 @@ namespace GovUkDesignSystem.ModelBinders
 
             if (valueProviderResult == ValueProviderResult.None)
             {
-                bindingContext.ModelState.TryAddModelError(modelName, $"Enter {names.NameWithinSentence}");
+                bindingContext.ModelState.TryAddModelError(modelName, $"Enter {nameWithinSentence}");
 
                 return Task.CompletedTask;
             }
@@ -52,20 +59,20 @@ namespace GovUkDesignSystem.ModelBinders
             // Check if the argument value is null or empty
             if (string.IsNullOrEmpty(value))
             {
-                bindingContext.ModelState.TryAddModelError(modelName, $"Enter {names.NameWithinSentence}");
+                bindingContext.ModelState.TryAddModelError(modelName, $"Enter {nameWithinSentence}");
 
                 return Task.CompletedTask;
             }
 
             if (!double.TryParse(value, out var doubleValue))
             {
-                bindingContext.ModelState.TryAddModelError(modelName, $"{names.NameAtStartOfSentence} must be a number");
+                bindingContext.ModelState.TryAddModelError(modelName, $"{nameAtStartOfSentence} must be a number");
                 return Task.CompletedTask;
             }
 
             if (!int.TryParse(value, out var intValue))
             {
-                bindingContext.ModelState.TryAddModelError(modelName, $"{names.NameAtStartOfSentence} must be a whole number");
+                bindingContext.ModelState.TryAddModelError(modelName, $"{nameAtStartOfSentence} must be a whole number");
                 return Task.CompletedTask;
             }
 
