@@ -19,12 +19,13 @@ namespace GovUkDesignSystem.HtmlGenerators
             Expression<Func<TModel, List<TEnum>>> propertyExpression,
             FieldsetViewModel fieldsetOptions = null,
             HintViewModel hintOptions = null,
-            Dictionary<TEnum, Conditional> conditionalOptions = null)
+            Dictionary<TEnum, Conditional> conditionalOptions = null,
+            string idPrefix = null)
             where TModel : class
             where TEnum : Enum
         {
-            string propertyId = htmlHelper.IdFor(propertyExpression);
-            string propertyName = htmlHelper.NameFor(propertyExpression);
+            string propertyId = idPrefix + htmlHelper.IdFor(propertyExpression);
+            string propertyName = idPrefix + htmlHelper.NameFor(propertyExpression);
             htmlHelper.ViewData.ModelState.TryGetValue(propertyName, out var modelStateEntry);
 
             // Normally we'd want to get our values from the post data first. However with a list of checkboxes we only

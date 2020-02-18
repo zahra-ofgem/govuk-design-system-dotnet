@@ -14,7 +14,8 @@ namespace GovUkDesignSystem.HtmlGenerators
         internal static async Task<IHtmlContent> GenerateHtml(
             this IHtmlHelper htmlHelper,
             ModelStateDictionary modelState,
-            string[] orderOfPropertyNamesInTheView)
+            string[] orderOfPropertyNamesInTheView,
+            string idPrefix = null)
         {
             if (modelState.IsValid)
             {
