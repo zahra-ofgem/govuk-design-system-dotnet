@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using GovUkDesignSystem.Attributes.ValidationAttributes;
@@ -11,43 +12,40 @@ namespace GovUkDesignSystem.HtmlGenerators
 {
     internal static class CharacterCountHtmlGenerator
     {
-
         internal static IHtmlContent GenerateHtml<TModel>(
             IHtmlHelper<TModel> htmlHelper,
-            Expression<Func<TModel, string>> propertyLambdaExpression,
+            Expression<Func<TModel, string>> propertyExpression,
             int? rows = null,
             LabelViewModel labelOptions = null,
             HintViewModel hintOptions = null,
             FormGroupViewModel formGroupOptions = null
         )
-            where TModel : GovUkViewModel
+            where TModel : class
         {
-            PropertyInfo property = ExpressionHelpers.GetPropertyFromExpression(propertyLambdaExpression);
+            PropertyInfo property = ExpressionHelpers.GetPropertyFromExpression(propertyExpression);
             ThrowIfPropertyDoesNotHaveCharacterCountAttribute(property);
-
-            string propertyName = property.Name;
-
-            TModel model = htmlHelper.ViewData.Model;
-
-            string currentValue = ExtensionHelpers.GetCurrentValue(model, property, propertyLambdaExpression);
-
             int maximumCharacters = GetMaximumCharacters(property);
 
-            var characterCountViewModel = new CharacterCountViewModel {
-                Name = $"GovUk_Text_{propertyName}",
-                Id = $"GovUk_{propertyName}",
+            string propertyId = htmlHelper.IdFor(propertyExpression);
+            string propertyName = htmlHelper.NameFor(propertyExpression);
+            htmlHelper.ViewData.ModelState.TryGetValue(propertyName, out var modelStateEntry);
+
+            // Get the value to put in the input from the post data if possible, otherwise use the value in the model
+            string inputValue = HtmlGenerationHelpers.GetStringValueFromModelStateOrModel(modelStateEntry, htmlHelper.ViewData.Model, propertyExpression);
+
+            var characterCountViewModel = new CharacterCountViewModel
+            {
+                Name = propertyName,
+                Id = propertyId,
                 MaxLength = maximumCharacters,
-                Value = currentValue,
+                Value = inputValue,
                 Rows = rows,
                 Label = labelOptions,
                 Hint = hintOptions,
                 FormGroup = formGroupOptions
             };
 
-            if (model.HasErrorFor(property))
-            {
-                characterCountViewModel.ErrorMessage = new ErrorMessageViewModel {Text = model.GetErrorFor(property)};
-            }
+            HtmlGenerationHelpers.SetErrorMessages(characterCountViewModel, modelStateEntry);
 
             return htmlHelper.Partial("/GovUkDesignSystemComponents/CharacterCount.cshtml", characterCountViewModel);
         }

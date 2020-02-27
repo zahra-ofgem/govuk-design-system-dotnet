@@ -1,16 +1,26 @@
-using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
 using GovUkDesignSystem.GovUkDesignSystemComponents;
 using GovUkDesignSystem.GovUkDesignSystemComponents.SubComponents;
 using GovUkDesignSystem.HtmlGenerators;
 using Microsoft.AspNetCore.Html;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace GovUkDesignSystem
 {
     public static class GovUkHtmlHelperExtensions
     {
+
+        public static IHtmlContent GovUkAccordion(
+            this IHtmlHelper htmlHelper,
+            AccordionViewModel accordionViewModel)
+        {
+            return htmlHelper.Partial("/GovUkDesignSystemComponents/Accordion.cshtml", accordionViewModel);
+        }
 
         public static IHtmlContent GovUkBackLink(
             this IHtmlHelper htmlHelper,
@@ -47,7 +57,7 @@ namespace GovUkDesignSystem
             LabelViewModel labelOptions = null,
             HintViewModel hintOptions = null,
             FormGroupViewModel formGroupOptions = null)
-            where TModel : GovUkViewModel
+            where TModel : class
         {
             return CharacterCountHtmlGenerator.GenerateHtml(
                 htmlHelper,
@@ -65,15 +75,15 @@ namespace GovUkDesignSystem
             return htmlHelper.Partial("/GovUkDesignSystemComponents/Checkboxes.cshtml", checkboxesViewModel);
         }
 
-        public static IHtmlContent GovUkCheckboxesFor<TModel, TPropertyListItem>(
+        public static IHtmlContent GovUkCheckboxesFor<TModel, TEnum>(
             this IHtmlHelper<TModel> htmlHelper,
-            Expression<Func<TModel, List<TPropertyListItem>>> propertyLambdaExpression,
+            Expression<Func<TModel, List<TEnum>>> propertyLambdaExpression,
             FieldsetViewModel fieldsetOptions = null,
             HintViewModel hintOptions = null,
-            Dictionary<TPropertyListItem, Func<object, object>> conditionalOptions = null
+            Dictionary<TEnum, Func<object, object>> conditionalOptions = null
             )
-            where TModel : GovUkViewModel
-            where TPropertyListItem : struct, IConvertible // A fairly good check that TPropertyListItem is an Enum
+            where TModel : class
+            where TEnum : Enum
         {
             return CheckboxesHtmlGenerator.GenerateHtml(
                 htmlHelper,
@@ -90,6 +100,46 @@ namespace GovUkDesignSystem
             return htmlHelper.Partial("/GovUkDesignSystemComponents/CheckboxItem.cshtml", checkboxItemViewModel);
         }
 
+        public static IHtmlContent GovUkDateInput(
+            this IHtmlHelper htmlHelper,
+            DateInputViewModel dateInputViewModel)
+        {
+            return htmlHelper.Partial("/GovUkDesignSystemComponents/DateInput.cshtml", dateInputViewModel);
+        }
+
+        /// <summary>
+        /// This doesn't work for more than three items and only if they have ids 'day', 'month', and 'year'.
+        /// <returns></returns>
+        public static IHtmlContent GovUkDateInputFor<TModel>(
+            this IHtmlHelper<TModel> htmlHelper,
+            Expression<Func<TModel, DateTime?>> propertyLambdaExpression,
+            string classes = null,
+            LabelViewModel labelOptions = null,
+            HintViewModel hintOptions = null,
+            FieldsetViewModel fieldsetOptions = null,
+            FormGroupViewModel formGroupOptions = null,
+            Dictionary<string, string> attributes = null
+            )
+            where TModel : class
+        {
+            return DateInputHtmlGenerator.GenerateHtml(
+                htmlHelper,
+                propertyLambdaExpression,
+                classes,
+                labelOptions,
+                hintOptions,
+                fieldsetOptions,
+                formGroupOptions,
+                attributes);
+        }
+
+        public static IHtmlContent GovUkDetails(
+            this IHtmlHelper htmlHelper,
+            DetailsViewModel detailsViewModel)
+        {
+            return htmlHelper.Partial("/GovUkDesignSystemComponents/Details.cshtml", detailsViewModel);
+        }
+
         public static IHtmlContent GovUkErrorMessage(
             this IHtmlHelper htmlHelper,
             ErrorMessageViewModel errorMessageViewModel)
@@ -104,15 +154,15 @@ namespace GovUkDesignSystem
             return htmlHelper.Partial("/GovUkDesignSystemComponents/ErrorSummary.cshtml", errorSummaryViewModel);
         }
 
-        public static IHtmlContent GovUkErrorSummary<TModel>(
-            this IHtmlHelper<TModel> htmlHelper,
+        public static IHtmlContent GovUkErrorSummary(
+            this IHtmlHelper htmlHelper,
+            ModelStateDictionary modelState,
             string[] optionalOrderOfPropertyNamesInTheView = null)
-            where TModel : GovUkViewModel
         {
             // Give 'optionalOrderOfPropertiesInTheView' a default value (of an empty array)
             var orderOfPropertyNamesInTheView = optionalOrderOfPropertyNamesInTheView ?? new string[0];
 
-            return ErrorSummaryHtmlGenerator.GenerateHtml(htmlHelper, orderOfPropertyNamesInTheView);
+            return ErrorSummaryHtmlGenerator.GenerateHtml(htmlHelper, modelState, orderOfPropertyNamesInTheView);
         }
 
         public static IHtmlContent GovUkFieldset(
@@ -185,6 +235,13 @@ namespace GovUkDesignSystem
             return htmlHelper.Partial("/GovUkDesignSystemComponents/Legend.cshtml", legendViewModel);
         }
 
+        public static IHtmlContent GovUkPanel(
+            this IHtmlHelper htmlHelper,
+            PanelViewModel panelViewModel)
+        {
+            return htmlHelper.Partial("/GovUkDesignSystemComponents/Panel.cshtml", panelViewModel);
+        }
+
         public static IHtmlContent GovUkPhaseBanner(
             this IHtmlHelper htmlHelper,
             PhaseBannerViewModel phaseBannerViewModel)
@@ -192,12 +249,13 @@ namespace GovUkDesignSystem
             return htmlHelper.Partial("/GovUkDesignSystemComponents/PhaseBanner.cshtml", phaseBannerViewModel);
         }
 
-        public static IHtmlContent GovUkRadiosFor<TModel, TProperty>(
+        public static IHtmlContent GovUkRadiosFor<TModel, TEnum>(
             this IHtmlHelper<TModel> htmlHelper,
-            Expression<Func<TModel, TProperty>> propertyLambdaExpression,
+            Expression<Func<TModel, TEnum?>> propertyLambdaExpression,
             FieldsetViewModel fieldsetOptions = null,
             HintViewModel hintOptions = null)
-            where TModel : GovUkViewModel
+            where TModel : class
+            where TEnum : struct, Enum
         {
             return RadiosHtmlGenerator.GenerateHtml(
                 htmlHelper,
@@ -211,6 +269,27 @@ namespace GovUkDesignSystem
             RadioItemViewModel radioItemViewModel)
         {
             return htmlHelper.Partial("/GovUkDesignSystemComponents/RadioItem.cshtml", radioItemViewModel);
+        }
+
+        public static IHtmlContent GovUkSummaryList(
+            this IHtmlHelper htmlHelper,
+            SummaryListViewModel summaryListViewModel)
+        {
+            return htmlHelper.Partial("/GovUkDesignSystemComponents/SummaryList.cshtml", summaryListViewModel);
+        }
+
+        public static IHtmlContent GovUkTable(
+            this IHtmlHelper htmlHelper,
+            TableGovUkViewModel tableViewModel)
+        {
+            return htmlHelper.Partial("/GovUkDesignSystemComponents/Table.cshtml", tableViewModel);
+        }
+
+        public static IHtmlContent GovUkTabs(
+            this IHtmlHelper htmlHelper,
+            TabsViewModel tabsViewModel)
+        {
+            return htmlHelper.Partial("/GovUkDesignSystemComponents/Tabs.cshtml", tabsViewModel);
         }
 
         public static IHtmlContent GovUkTag(
@@ -234,7 +313,7 @@ namespace GovUkDesignSystem
             LabelViewModel labelOptions = null,
             HintViewModel hintOptions = null,
             FormGroupViewModel formGroupOptions = null)
-            where TModel : GovUkViewModel
+            where TModel : class
         {
             return TextAreaHtmlGenerator.GenerateHtml(
                 htmlHelper,
@@ -254,17 +333,17 @@ namespace GovUkDesignSystem
 
         public static IHtmlContent GovUkTextInputFor<TModel>(
             this IHtmlHelper<TModel> htmlHelper,
-            Expression<Func<TModel, string>> propertyLambdaExpression,
+            Expression<Func<TModel, string>> propertyExpression,
             LabelViewModel labelOptions = null,
             HintViewModel hintOptions = null,
             FormGroupViewModel formGroupOptions = null,
             string classes = null,
             TextInputAppendixViewModel textInputAppendix = null)
-            where TModel : GovUkViewModel
+            where TModel : class
         {
             return TextInputHtmlGenerator.GenerateHtml(
                 htmlHelper,
-                propertyLambdaExpression,
+                propertyExpression,
                 labelOptions,
                 hintOptions,
                 formGroupOptions,
@@ -274,17 +353,17 @@ namespace GovUkDesignSystem
 
         public static IHtmlContent GovUkTextInputFor<TModel>(
             this IHtmlHelper<TModel> htmlHelper,
-            Expression<Func<TModel, int?>> propertyLambdaExpression,
+            Expression<Func<TModel, int?>> propertyExpression,
             LabelViewModel labelOptions = null,
             HintViewModel hintOptions = null,
             FormGroupViewModel formGroupOptions = null,
             string classes = null,
             TextInputAppendixViewModel textInputAppendix = null)
-            where TModel : GovUkViewModel
+            where TModel : class
         {
             return TextInputHtmlGenerator.GenerateHtml(
                 htmlHelper,
-                propertyLambdaExpression,
+                propertyExpression,
                 labelOptions,
                 hintOptions,
                 formGroupOptions,
@@ -292,5 +371,29 @@ namespace GovUkDesignSystem
                 textInputAppendix);
         }
 
+        public static IHtmlContent GovUkFileUpload(
+            this IHtmlHelper htmlHelper,
+            FileUploadViewModel fileUploadViewModel)
+        {
+            return htmlHelper.Partial("/GovUkDesignSystemComponents/FileUpload.cshtml", fileUploadViewModel);
+        }
+
+        public static IHtmlContent GovUkFileUploadFor<TModel>(
+            this IHtmlHelper<TModel> htmlHelper,
+            Expression<Func<TModel, IFormFile>> propertyExpression,
+            LabelViewModel labelOptions = null,
+            HintViewModel hintOptions = null,
+            FormGroupViewModel formGroupOptions = null,
+            string classes = null)
+            where TModel : class
+        {
+            return FileUploadHtmlGenerator.GenerateHtml(
+                htmlHelper,
+                propertyExpression,
+                labelOptions,
+                hintOptions,
+                formGroupOptions,
+                classes);
+        }
     }
 }
