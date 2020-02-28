@@ -19,7 +19,8 @@ namespace GovUkDesignSystem.HtmlGenerators
             Expression<Func<TModel, TEnum?>> propertyExpression,
             FieldsetViewModel fieldsetOptions = null,
             HintViewModel hintOptions = null,
-            string classes = null)
+            string classes = null,
+            Dictionary<TEnum, string> labelDictionary = null)
             where TModel : class
             where TEnum : struct, Enum
         {
@@ -37,7 +38,9 @@ namespace GovUkDesignSystem.HtmlGenerators
                 .Select(enumValue =>
                 {
                     bool isEnumValueCurrentlySelected = selectedValue.HasValue && enumValue.Equals(selectedValue.Value);
-                    string radioLabelText = GovUkRadioCheckboxLabelTextAttribute.GetLabelText(enumValue);
+                    string radioLabelText = null;
+                    labelDictionary?.TryGetValue(enumValue, out radioLabelText);
+                    radioLabelText ??= GovUkRadioCheckboxLabelTextAttribute.GetLabelText(enumValue);
 
                     return new RadioItemViewModel
                     {
