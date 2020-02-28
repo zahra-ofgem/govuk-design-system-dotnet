@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
 using System.Threading.Tasks;
 using GovUkDesignSystem.Attributes;
 using GovUkDesignSystem.GovUkDesignSystemComponents;
@@ -14,7 +13,7 @@ namespace GovUkDesignSystem.HtmlGenerators
 {
     internal static class RadiosHtmlGenerator
     {
-        public static IHtmlContent GenerateHtml<TModel, TEnum>(
+        internal static async Task<IHtmlContent> GenerateHtml<TModel, TEnum>(
             IHtmlHelper<TModel> htmlHelper,
             Expression<Func<TModel, TEnum?>> propertyExpression,
             FieldsetViewModel fieldsetOptions = null,
@@ -65,7 +64,7 @@ namespace GovUkDesignSystem.HtmlGenerators
 
             HtmlGenerationHelpers.SetErrorMessages(radiosViewModel, modelStateEntry);
 
-            return htmlHelper.Partial("/GovUkDesignSystemComponents/Radios.cshtml", radiosViewModel);
+            return await htmlHelper.PartialAsync("/GovUkDesignSystemComponents/Radios.cshtml", radiosViewModel);
         }
     }
 }

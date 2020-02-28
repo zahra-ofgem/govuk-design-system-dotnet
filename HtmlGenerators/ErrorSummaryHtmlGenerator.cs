@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using GovUkDesignSystem.GovUkDesignSystemComponents;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -10,7 +11,7 @@ namespace GovUkDesignSystem.HtmlGenerators
 {
     public static class ErrorSummaryHtmlGenerator
     {
-        public static IHtmlContent GenerateHtml(
+        internal static async Task<IHtmlContent> GenerateHtml(
             this IHtmlHelper htmlHelper,
             ModelStateDictionary modelState,
             string[] orderOfPropertyNamesInTheView)
@@ -41,7 +42,7 @@ namespace GovUkDesignSystem.HtmlGenerators
                 Errors = errorSummaryItems
             };
 
-            return htmlHelper.Partial("/GovUkDesignSystemComponents/ErrorSummary.cshtml", errorSummaryViewModel);
+            return await htmlHelper.PartialAsync("/GovUkDesignSystemComponents/ErrorSummary.cshtml", errorSummaryViewModel);
         }
 
         private static List<string> GetErroredPropertyNamesInSpecifiedOrder(

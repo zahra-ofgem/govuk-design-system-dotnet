@@ -14,7 +14,7 @@ namespace GovUkDesignSystem.HtmlGenerators
 {
     internal static class CheckboxesHtmlGenerator
     {
-        public static IHtmlContent GenerateHtml<TModel, TEnum>(
+        internal static async Task<IHtmlContent> GenerateHtml<TModel, TEnum>(
             IHtmlHelper<TModel> htmlHelper,
             Expression<Func<TModel, List<TEnum>>> propertyExpression,
             FieldsetViewModel fieldsetOptions = null,
@@ -71,7 +71,7 @@ namespace GovUkDesignSystem.HtmlGenerators
 
             HtmlGenerationHelpers.SetErrorMessages(checkboxesViewModel, modelStateEntry);
 
-            return htmlHelper.Partial("/GovUkDesignSystemComponents/Checkboxes.cshtml", checkboxesViewModel);
+            return await htmlHelper.PartialAsync("/GovUkDesignSystemComponents/Checkboxes.cshtml", checkboxesViewModel);
         }
 
         private static void ThrowIfPropertyTypeIsNotListOfEnums<TPropertyListItem>(PropertyInfo property)
