@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using ApprovalTests;
+using ApprovalTests.Namers;
 using GovUkDesignSystem.GovUkDesignSystemComponents;
 using GovUkDesignSystem.SnapshotTests.Helpers;
 using Microsoft.AspNetCore.Mvc.Razor;
@@ -18,15 +19,20 @@ namespace GovUkDesignSystem.SnapshotTests
             _server = new ComponentTestServerFixture();
         }
 
-        [Fact]
-        public async Task Rendering_Label_ExpectSuccess()
+        [Theory]
+        [InlineData("Hint", typeof(HintViewModel))]
+        [InlineData("Label", typeof(LabelViewModel))]
+        public async Task Rendering(string viewName, Type viewModelType)
         {
+            // Tell ApprovalTests how to name these test results
+            NamerFactory.AdditionalInformation = viewName;
+
             // Arrange
             var renderer = GetViewRenderer();
-            var viewModel = new LabelViewModel();
+            var viewModel = Activator.CreateInstance(viewModelType);
 
             // Act
-            var result = await renderer.Render(@"Label", viewModel);
+            var result = await renderer.Render(viewName, viewModel);
 
             // Assert
             Approvals.VerifyHtml(result);
