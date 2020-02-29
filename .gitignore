@@ -36,6 +36,9 @@ Generated\ Files/
 [Tt]est[Rr]esult*/
 [Bb]uild[Ll]og.*
 
+# Approval tests
+*.received.*
+
 # NUNIT
 *.VisualState.xml
 TestResult.xml

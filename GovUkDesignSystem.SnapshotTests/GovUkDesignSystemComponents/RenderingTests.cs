@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using ApprovalTests;
 using GovUkDesignSystem.GovUkDesignSystemComponents;
 using GovUkDesignSystem.SnapshotTests.Helpers;
 using Microsoft.AspNetCore.Mvc.Razor;
@@ -28,7 +29,7 @@ namespace GovUkDesignSystem.SnapshotTests
             var result = await renderer.Render(@"Label", viewModel);
 
             // Assert
-            Assert.NotNull(result);
+            Approvals.VerifyHtml(result);
         }
 
         private ViewRenderer GetViewRenderer()
