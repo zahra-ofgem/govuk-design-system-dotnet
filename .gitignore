@@ -38,6 +38,7 @@ Generated\ Files/
 
 # Approval tests
 *.received.*
+*.approved.*.bak
 
 # NUNIT
 *.VisualState.xml
