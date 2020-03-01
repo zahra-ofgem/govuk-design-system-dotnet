@@ -28,7 +28,7 @@ We actively welcome pull requests. The best way to contribute is to:
 
 1. Fork the repo and create your branch from `master`.
 2. Make your changes.
-3. If you've added code that should be tested, please add tests and ensure the test suite passes.
+3. If you've added code that should be tested, please add tests and ensure the test suite passes. (You may want to install WinMerge if you are running the snapshot tests)
 4. Issue a pull request
 
 

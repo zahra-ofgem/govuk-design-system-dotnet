@@ -136,5 +136,3 @@ public IActionResult ActionName(MyViewModel viewModel)
     }
 }
 ```
-
-C
