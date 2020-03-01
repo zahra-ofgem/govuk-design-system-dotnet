@@ -6,7 +6,7 @@
         @<text>
             <label class="govuk-label @( Model.Classes)"
                    @( Html.Raw(Model.Attributes != null ? string.Join(" ", Model.Attributes.Select(a => a.Key + "=\"" + a.Value + "\"")) : ""))
-                   for=@( Model.For)>
+                   for="@(Model.For)">
                 @{ await Html.RenderPartialAsync("/GovUkDesignSystemComponents/SubComponents/HtmlText.cshtml", Model); }
             </label>
          </text>;
