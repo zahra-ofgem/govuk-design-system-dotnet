@@ -80,7 +80,7 @@ namespace GovUkDesignSystem
             Expression<Func<TModel, List<TEnum>>> propertyLambdaExpression,
             FieldsetViewModel fieldsetOptions = null,
             HintViewModel hintOptions = null,
-            Dictionary<TEnum, Func<object, object>> conditionalOptions = null
+            Dictionary<TEnum, Conditional> conditionalOptions = null
             )
             where TModel : class
             where TEnum : Enum
