@@ -255,7 +255,7 @@ namespace GovUkDesignSystem
             FieldsetViewModel fieldsetOptions = null,
             HintViewModel hintOptions = null,
             string classes = null,
-            Dictionary<TEnum, Func<object,object>> conditionalOptions = null)
+            Dictionary<TEnum, Conditional> conditionalOptions = null)
             where TModel : class
             where TEnum : struct, Enum
         {

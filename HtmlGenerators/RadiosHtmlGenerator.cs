@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
-using System.Threading.Tasks;
-using GovUkDesignSystem.Attributes;
+﻿using GovUkDesignSystem.Attributes;
 using GovUkDesignSystem.GovUkDesignSystemComponents;
 using GovUkDesignSystem.Helpers;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace GovUkDesignSystem.HtmlGenerators
 {
@@ -20,7 +18,7 @@ namespace GovUkDesignSystem.HtmlGenerators
             FieldsetViewModel fieldsetOptions = null,
             HintViewModel hintOptions = null,
             string classes = null,
-            Dictionary<TEnum, Func<object, object>> conditionalOptions = null)
+            Dictionary<TEnum, Conditional> conditionalOptions = null)
             where TModel : class
             where TEnum : struct, Enum
         {
@@ -51,9 +49,9 @@ namespace GovUkDesignSystem.HtmlGenerators
                         }
                     };
 
-                    if (conditionalOptions != null && conditionalOptions.TryGetValue(enumValue, out Func<object, object> conditionalHtml))
+                    if (conditionalOptions != null && conditionalOptions.TryGetValue(enumValue, out Conditional conditional))
                     {
-                        radioItemViewModel.Conditional = new Conditional { Html = conditionalHtml };
+                        radioItemViewModel.Conditional = conditional;
                     }
 
                     return radioItemViewModel;
