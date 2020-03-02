@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using GovUkDesignSystem.GovUkDesignSystemComponents;
@@ -11,7 +10,7 @@ namespace GovUkDesignSystem.HtmlGenerators
 {
     internal static class TextInputHtmlGenerator
     {
-        internal static IHtmlContent GenerateHtml<TModel, TProperty>(
+        internal static async Task<IHtmlContent> GenerateHtml<TModel, TProperty>(
             IHtmlHelper<TModel> htmlHelper,
             Expression<Func<TModel, TProperty>> propertyExpression,
             LabelViewModel labelOptions = null,
@@ -48,7 +47,7 @@ namespace GovUkDesignSystem.HtmlGenerators
 
             HtmlGenerationHelpers.SetErrorMessages(textInputViewModel, modelStateEntry);
 
-            return htmlHelper.Partial("/GovUkDesignSystemComponents/TextInput.cshtml", textInputViewModel);
+            return await htmlHelper.PartialAsync("/GovUkDesignSystemComponents/TextInput.cshtml", textInputViewModel);
         }
     }
 }

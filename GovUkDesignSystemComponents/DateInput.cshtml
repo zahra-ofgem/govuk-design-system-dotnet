@@ -12,12 +12,12 @@
         if (Model.Hint != null)
         {
             Model.Hint.Id = hintId;
-            Html.RenderPartial("/GovUkDesignSystemComponents/Hint.cshtml", Model.Hint);
+            await Html.RenderPartialAsync("/GovUkDesignSystemComponents/Hint.cshtml", Model.Hint);
         }
         if (Model.ErrorMessage != null)
         {
             Model.ErrorMessage.Id = errorId;
-            Html.RenderPartial("/GovUkDesignSystemComponents/ErrorMessage.cshtml", Model.ErrorMessage);
+            await Html.RenderPartialAsync("/GovUkDesignSystemComponents/ErrorMessage.cshtml", Model.ErrorMessage);
         }
         }
 
@@ -37,7 +37,7 @@
                 {
                     dateInputItem.Name = Model.NamePrefix + "-" + dateInputItem.Name;
                 }
-                Html.RenderPartial("/GovUkDesignSystemComponents/DateInputItem.cshtml", dateInputItem);
+                await Html.RenderPartialAsync("/GovUkDesignSystemComponents/DateInputItem.cshtml", dateInputItem);
             }
         </div>
     </text>;
