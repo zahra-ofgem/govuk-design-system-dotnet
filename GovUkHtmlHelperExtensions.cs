@@ -255,7 +255,7 @@ namespace GovUkDesignSystem
             FieldsetViewModel fieldsetOptions = null,
             HintViewModel hintOptions = null,
             string classes = null,
-            Dictionary<TEnum, string> labelDictionary = null)
+            Dictionary<TEnum, LabelViewModel> labelOptions = null)
             where TModel : class
             where TEnum : struct, Enum
         {
@@ -265,7 +265,7 @@ namespace GovUkDesignSystem
                 fieldsetOptions,
                 hintOptions,
                 classes,
-                labelDictionary);
+                labelOptions);
         }
 
         public static IHtmlContent GovUkRadioItem(
