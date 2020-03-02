@@ -36,4 +36,4 @@ jobs:
       command: 'push'
       packagesToPush: '$(Build.ArtifactStagingDirectory)/packages/releases/*.nupkg'
       publishVstsFeed: 'be9eed3c-7b4f-40e5-9a47-6fb3d3764885/a3506a0f-ba41-4b6e-bcd3-cd84d73d74b2'
-      allowPackageConflicts: true
+      allowPackageConflicts: false
