@@ -18,9 +18,9 @@ namespace GovUkDesignSystem.HtmlGenerators
             Expression<Func<TModel, TEnum?>> propertyExpression,
             FieldsetViewModel fieldsetOptions = null,
             HintViewModel hintOptions = null,
+            string classes = null,
             Dictionary<TEnum, HintViewModel> radioHints = null,
             Dictionary<TEnum, Conditional> conditionalOptions = null)
-            string classes = null,
             where TModel : class
             where TEnum : struct, Enum
         {
@@ -43,7 +43,7 @@ namespace GovUkDesignSystem.HtmlGenerators
 
                     radioHints?.TryGetValue(enumValue, out itemHint);
 
-                    return new RadioItemViewModel
+                    var radioItemViewModel = new RadioItemViewModel
                     {
                         Value = enumValue.ToString(),
                         Id = $"{propertyId}_{enumValue}",
