@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
 using System.Threading.Tasks;
 using GovUkDesignSystem.GovUkDesignSystemComponents;
 using GovUkDesignSystem.Helpers;
@@ -12,7 +10,7 @@ namespace GovUkDesignSystem.HtmlGenerators
 {
     internal static class TextAreaHtmlGenerator
     {
-        internal static IHtmlContent GenerateHtml<TModel>(
+        internal static async Task<IHtmlContent> GenerateHtml<TModel>(
             IHtmlHelper<TModel> htmlHelper,
             Expression<Func<TModel, string>> propertyExpression,
             int? rows = null,
@@ -47,7 +45,7 @@ namespace GovUkDesignSystem.HtmlGenerators
 
             HtmlGenerationHelpers.SetErrorMessages(textAreaViewModel, modelStateEntry);
 
-            return htmlHelper.Partial("/GovUkDesignSystemComponents/Textarea.cshtml", textAreaViewModel);
+            return await htmlHelper.PartialAsync("/GovUkDesignSystemComponents/Textarea.cshtml", textAreaViewModel);
         }
     }
 }
