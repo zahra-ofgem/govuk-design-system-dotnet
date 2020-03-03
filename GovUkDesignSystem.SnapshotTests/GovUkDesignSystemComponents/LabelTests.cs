@@ -6,7 +6,7 @@ using Xunit;
 
 namespace GovUkDesignSystem.SnapshotTests.GovUkDesignSystemComponents
 {
-    public class Label : SnapshotTestBase
+    public class LabelTests : SnapshotTestBase
     {
         private LabelViewModel DefaultLabelViewModel()
         {
