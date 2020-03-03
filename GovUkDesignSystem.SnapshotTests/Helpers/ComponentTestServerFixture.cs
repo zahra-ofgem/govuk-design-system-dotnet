@@ -22,7 +22,7 @@ namespace GovUkDesignSystem.SnapshotTests.Helpers
             var hostBuilder = new WebHostBuilder();
             hostBuilder.ConfigureAppConfiguration((context, b) =>
             {
-                //qq:DCC use something more general?
+                //TODO use something more general?
                 context.HostingEnvironment.ApplicationName = typeof(TextInputViewModel).Assembly.GetName().Name;
             });
             return hostBuilder.UseStartup<ComponentTestStartup>();
