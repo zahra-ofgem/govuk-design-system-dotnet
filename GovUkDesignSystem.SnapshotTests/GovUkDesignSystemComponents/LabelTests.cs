@@ -40,7 +40,7 @@ namespace GovUkDesignSystem.SnapshotTests.GovUkDesignSystemComponents
         }
 
         [Fact]
-        public async Task Render_As_Page_Heading()
+        public async Task Render_AsPageHeading()
         {
             // Arrange
             var viewModel = DefaultLabelViewModel();
