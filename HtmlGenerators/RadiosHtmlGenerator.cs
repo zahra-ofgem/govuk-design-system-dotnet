@@ -1,25 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
-using System.Threading.Tasks;
-using GovUkDesignSystem.Attributes;
+﻿using GovUkDesignSystem.Attributes;
 using GovUkDesignSystem.GovUkDesignSystemComponents;
 using GovUkDesignSystem.Helpers;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace GovUkDesignSystem.HtmlGenerators
 {
     internal static class RadiosHtmlGenerator
     {
-        public static IHtmlContent GenerateHtml<TModel, TEnum>(
+        internal static async Task<IHtmlContent> GenerateHtml<TModel, TEnum>(
             IHtmlHelper<TModel> htmlHelper,
             Expression<Func<TModel, TEnum?>> propertyExpression,
             FieldsetViewModel fieldsetOptions = null,
             HintViewModel hintOptions = null,
             string classes = null,
+            Dictionary<TEnum, HintViewModel> radioHints = null,
+            Dictionary<TEnum, Conditional> conditionalOptions = null,
             Dictionary<TEnum, LabelViewModel> labelOptions = null)
             where TModel : class
             where TEnum : struct, Enum
@@ -45,14 +46,25 @@ namespace GovUkDesignSystem.HtmlGenerators
                             Text = GovUkRadioCheckboxLabelTextAttribute.GetLabelText(enumValue)
                         };
                     }
+                    HintViewModel itemHint = null;
 
-                    return new RadioItemViewModel
+                    radioHints?.TryGetValue(enumValue, out itemHint);
+
+                    var radioItemViewModel = new RadioItemViewModel
                     {
                         Value = enumValue.ToString(),
                         Id = $"{propertyId}_{enumValue}",
                         Checked = isEnumValueCurrentlySelected,
-                        Label = radioLabelViewModel
+                        Label = radioLabelViewModel,
+                        Hint = itemHint
                     };
+
+                    if (conditionalOptions != null && conditionalOptions.TryGetValue(enumValue, out Conditional conditional))
+                    {
+                        radioItemViewModel.Conditional = conditional;
+                    }
+
+                    return radioItemViewModel;
                 })
                 .Cast<ItemViewModel>()
                 .ToList();
@@ -69,7 +81,7 @@ namespace GovUkDesignSystem.HtmlGenerators
 
             HtmlGenerationHelpers.SetErrorMessages(radiosViewModel, modelStateEntry);
 
-            return htmlHelper.Partial("/GovUkDesignSystemComponents/Radios.cshtml", radiosViewModel);
+            return await htmlHelper.PartialAsync("/GovUkDesignSystemComponents/Radios.cshtml", radiosViewModel);
         }
     }
 }
