@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using ApprovalTests;
 using Microsoft.AspNetCore.Mvc.Razor;
@@ -8,6 +9,12 @@ namespace GovUkDesignSystem.SnapshotTests.Helpers
 {
     public abstract class SnapshotTestBase
     {
+        static SnapshotTestBase()
+        {
+            // Work around what appears to be a bug in ApprovalTests. They will fail if this directory doesn't exist
+            Directory.CreateDirectory(Path.Combine(Environment.CurrentDirectory, "EmptyFiles"));
+        }
+
         private readonly ComponentTestServerFixture _server;
 
         internal SnapshotTestBase()
