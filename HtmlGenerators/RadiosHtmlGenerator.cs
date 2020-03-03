@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
-using GovUkDesignSystem.Attributes;
+﻿using GovUkDesignSystem.Attributes;
 using GovUkDesignSystem.GovUkDesignSystemComponents;
 using GovUkDesignSystem.Helpers;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace GovUkDesignSystem.HtmlGenerators
 {
@@ -18,8 +18,9 @@ namespace GovUkDesignSystem.HtmlGenerators
             Expression<Func<TModel, TEnum?>> propertyExpression,
             FieldsetViewModel fieldsetOptions = null,
             HintViewModel hintOptions = null,
+            string classes = null,
             Dictionary<TEnum, HintViewModel> radioHints = null,
-            string classes = null)
+            Dictionary<TEnum, Conditional> conditionalOptions = null)
             where TModel : class
             where TEnum : struct, Enum
         {
@@ -42,7 +43,7 @@ namespace GovUkDesignSystem.HtmlGenerators
 
                     radioHints?.TryGetValue(enumValue, out itemHint);
 
-                    return new RadioItemViewModel
+                    var radioItemViewModel = new RadioItemViewModel
                     {
                         Value = enumValue.ToString(),
                         Id = $"{propertyId}_{enumValue}",
@@ -53,6 +54,13 @@ namespace GovUkDesignSystem.HtmlGenerators
                         },
                         Hint = itemHint
                     };
+
+                    if (conditionalOptions != null && conditionalOptions.TryGetValue(enumValue, out Conditional conditional))
+                    {
+                        radioItemViewModel.Conditional = conditional;
+                    }
+
+                    return radioItemViewModel;
                 })
                 .Cast<ItemViewModel>()
                 .ToList();

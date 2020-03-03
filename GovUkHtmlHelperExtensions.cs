@@ -254,8 +254,9 @@ namespace GovUkDesignSystem
             Expression<Func<TModel, TEnum?>> propertyLambdaExpression,
             FieldsetViewModel fieldsetOptions = null,
             HintViewModel hintOptions = null,
+            string classes = null,
             Dictionary<TEnum, HintViewModel> radioHints = null,
-            string classes = null)
+            Dictionary<TEnum, Conditional> conditionalOptions = null)
             where TModel : class
             where TEnum : struct, Enum
         {
@@ -264,8 +265,9 @@ namespace GovUkDesignSystem
                 propertyLambdaExpression,
                 fieldsetOptions,
                 hintOptions,
+                classes,
                 radioHints,
-                classes);
+                conditionalOptions);
         }
 
         public static async Task<IHtmlContent> GovUkRadioItem(
