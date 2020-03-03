@@ -256,7 +256,8 @@ namespace GovUkDesignSystem
             HintViewModel hintOptions = null,
             string classes = null,
             Dictionary<TEnum, HintViewModel> radioHints = null,
-            Dictionary<TEnum, Conditional> conditionalOptions = null)
+            Dictionary<TEnum, Conditional> conditionalOptions = null,
+            Dictionary<TEnum, LabelViewModel> labelOptions = null)
             where TModel : class
             where TEnum : struct, Enum
         {
@@ -267,7 +268,8 @@ namespace GovUkDesignSystem
                 hintOptions,
                 classes,
                 radioHints,
-                conditionalOptions);
+                conditionalOptions,
+                labelOptions);
         }
 
         public static async Task<IHtmlContent> GovUkRadioItem(
