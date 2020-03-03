@@ -38,19 +38,20 @@ namespace GovUkDesignSystem.HtmlGenerators
                 .Select(enumValue =>
                 {
                     bool isEnumValueCurrentlySelected = selectedValue.HasValue && enumValue.Equals(selectedValue.Value);
-                    string radioLabelText = GovUkRadioCheckboxLabelTextAttribute.GetLabelText(enumValue);
-                    LabelViewModel radioLabelViewModel = null;
-                    labelOptions?.TryGetValue(enumValue, out radioLabelViewModel);
+                    if (labelOptions == null || !labelOptions.TryGetValue(enumValue, out LabelViewModel radioLabelViewModel))
+                    {
+                        radioLabelViewModel = new LabelViewModel
+                        {
+                            Text = GovUkRadioCheckboxLabelTextAttribute.GetLabelText(enumValue)
+                        };
+                    }
 
                     return new RadioItemViewModel
                     {
                         Value = enumValue.ToString(),
                         Id = $"{propertyId}_{enumValue}",
                         Checked = isEnumValueCurrentlySelected,
-                        Label = radioLabelViewModel ?? new LabelViewModel
-                        {
-                            Text = radioLabelText
-                        }
+                        Label = radioLabelViewModel
                     };
                 })
                 .Cast<ItemViewModel>()
