@@ -1,25 +1,25 @@
-﻿using System;
+﻿using GovUkDesignSystem.Attributes;
+using GovUkDesignSystem.GovUkDesignSystemComponents;
+using GovUkDesignSystem.Helpers;
+using Microsoft.AspNetCore.Html;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
-using GovUkDesignSystem.Attributes;
-using GovUkDesignSystem.GovUkDesignSystemComponents;
-using GovUkDesignSystem.Helpers;
-using Microsoft.AspNetCore.Html;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace GovUkDesignSystem.HtmlGenerators
 {
     internal static class CheckboxesHtmlGenerator
     {
-        public static IHtmlContent GenerateHtml<TModel, TEnum>(
+        internal static async Task<IHtmlContent> GenerateHtml<TModel, TEnum>(
             IHtmlHelper<TModel> htmlHelper,
             Expression<Func<TModel, List<TEnum>>> propertyExpression,
             FieldsetViewModel fieldsetOptions = null,
             HintViewModel hintOptions = null,
-            Dictionary<TEnum, Func<object, object>> conditionalOptions = null)
+            Dictionary<TEnum, Conditional> conditionalOptions = null)
             where TModel : class
             where TEnum : Enum
         {
@@ -50,9 +50,9 @@ namespace GovUkDesignSystem.HtmlGenerators
                         }
                     };
 
-                    if (conditionalOptions != null && conditionalOptions.TryGetValue(enumValue, out Func<object, object> conditionalHtml))
+                    if (conditionalOptions != null && conditionalOptions.TryGetValue(enumValue, out Conditional conditional))
                     {
-                        checkboxItemViewModel.Conditional = new Conditional { Html = conditionalHtml };
+                        checkboxItemViewModel.Conditional = conditional;
                     }
 
                     return checkboxItemViewModel;
@@ -71,7 +71,7 @@ namespace GovUkDesignSystem.HtmlGenerators
 
             HtmlGenerationHelpers.SetErrorMessages(checkboxesViewModel, modelStateEntry);
 
-            return htmlHelper.Partial("/GovUkDesignSystemComponents/Checkboxes.cshtml", checkboxesViewModel);
+            return await htmlHelper.PartialAsync("/GovUkDesignSystemComponents/Checkboxes.cshtml", checkboxesViewModel);
         }
 
         private static void ThrowIfPropertyTypeIsNotListOfEnums<TPropertyListItem>(PropertyInfo property)

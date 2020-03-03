@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Threading.Tasks;
 using GovUkDesignSystem.Attributes.ValidationAttributes;
 using GovUkDesignSystem.GovUkDesignSystemComponents;
 using GovUkDesignSystem.Helpers;
@@ -12,7 +12,7 @@ namespace GovUkDesignSystem.HtmlGenerators
 {
     internal static class CharacterCountHtmlGenerator
     {
-        internal static IHtmlContent GenerateHtml<TModel>(
+        internal static async Task<IHtmlContent> GenerateHtml<TModel>(
             IHtmlHelper<TModel> htmlHelper,
             Expression<Func<TModel, string>> propertyExpression,
             int? rows = null,
@@ -47,7 +47,7 @@ namespace GovUkDesignSystem.HtmlGenerators
 
             HtmlGenerationHelpers.SetErrorMessages(characterCountViewModel, modelStateEntry);
 
-            return htmlHelper.Partial("/GovUkDesignSystemComponents/CharacterCount.cshtml", characterCountViewModel);
+            return await htmlHelper.PartialAsync("/GovUkDesignSystemComponents/CharacterCount.cshtml", characterCountViewModel);
         }
 
         private static void ThrowIfPropertyDoesNotHaveCharacterCountAttribute(PropertyInfo property)

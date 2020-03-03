@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace GovUkDesignSystem.HtmlGenerators
 {
@@ -14,7 +15,8 @@ namespace GovUkDesignSystem.HtmlGenerators
         public static readonly string Day = "Day";
         public static readonly string Month = "Month";
         public static readonly string Year = "Year";
-        internal static IHtmlContent GenerateHtml<TModel>(
+
+        internal static async Task<IHtmlContent> GenerateHtml<TModel>(
             IHtmlHelper<TModel> htmlHelper,
             Expression<Func<TModel, DateTime?>> propertyLambdaExpression,
             string classes,
@@ -100,7 +102,7 @@ namespace GovUkDesignSystem.HtmlGenerators
 
             HtmlGenerationHelpers.SetErrorMessages(dateInputViewModel, modelStateEntry);
 
-            return htmlHelper.Partial("/GovUkDesignSystemComponents/DateInput.cshtml", dateInputViewModel);
+            return await htmlHelper.PartialAsync("/GovUkDesignSystemComponents/DateInput.cshtml", dateInputViewModel);
         }
     }
 }
