@@ -37,8 +37,8 @@ Generated\ Files/
 [Bb]uild[Ll]og.*
 
 # Approval tests
-*.received.*
-*.approved.*.bak
+**/Snapshots/*.received.*
+**/Snapshots/*.approved.*.bak
 
 # NUNIT
 *.VisualState.xml
