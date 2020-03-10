@@ -16,12 +16,12 @@ namespace GovUkDesignSystem.HtmlGenerators
             LabelViewModel labelOptions = null,
             HintViewModel hintOptions = null,
             FormGroupViewModel formGroupOptions = null,
-            string classes = null
-        )
+            string classes = null,
+            string idPrefix = null)
             where TModel : class
         {
-            string propertyId = htmlHelper.IdFor(propertyExpression);
-            string propertyName = htmlHelper.NameFor(propertyExpression);
+            string propertyId = idPrefix + htmlHelper.IdFor(propertyExpression);
+            string propertyName = idPrefix + htmlHelper.NameFor(propertyExpression);
             htmlHelper.ViewData.ModelState.TryGetValue(propertyName, out var modelStateEntry);
 
             if (labelOptions != null)
