@@ -80,7 +80,8 @@ namespace GovUkDesignSystem
             Expression<Func<TModel, List<TEnum>>> propertyLambdaExpression,
             FieldsetViewModel fieldsetOptions = null,
             HintViewModel hintOptions = null,
-            Dictionary<TEnum, Conditional> conditionalOptions = null
+            Dictionary<TEnum, Conditional> conditionalOptions = null,
+            Dictionary<TEnum, LabelViewModel> labelOptions = null
             )
             where TModel : class
             where TEnum : Enum
@@ -90,7 +91,8 @@ namespace GovUkDesignSystem
                 propertyLambdaExpression,
                 fieldsetOptions,
                 hintOptions,
-                conditionalOptions);
+                conditionalOptions,
+                labelOptions);
         }
 
         public static async Task<IHtmlContent> GovUkCheckboxItem(
