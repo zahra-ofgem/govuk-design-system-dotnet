@@ -24,12 +24,13 @@ namespace GovUkDesignSystem.HtmlGenerators
             HintViewModel hintOptions,
             FieldsetViewModel fieldsetOptions,
             FormGroupViewModel formGroupOptions,
-            Dictionary<string, string> attributes
+            Dictionary<string, string> attributes,
+            string idPrefix = null
         )
             where TModel : class
         {
-            string propertyId = htmlHelper.IdFor(propertyLambdaExpression);
-            string propertyName = htmlHelper.NameFor(propertyLambdaExpression);
+            string propertyId = idPrefix + htmlHelper.IdFor(propertyLambdaExpression);
+            string propertyName = idPrefix + htmlHelper.NameFor(propertyLambdaExpression);
             var modelSuffixes = new[] { Day, Month, Year };
             var areModelValues = true;
             htmlHelper.ViewData.ModelState.TryGetValue(propertyName, out var modelStateEntry);

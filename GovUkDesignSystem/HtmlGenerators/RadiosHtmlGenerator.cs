@@ -21,12 +21,13 @@ namespace GovUkDesignSystem.HtmlGenerators
             string classes = null,
             Dictionary<TEnum, HintViewModel> radioHints = null,
             Dictionary<TEnum, Conditional> conditionalOptions = null,
-            Dictionary<TEnum, LabelViewModel> labelOptions = null)
+            Dictionary<TEnum, LabelViewModel> labelOptions = null,
+            string idPrefix = null)
             where TModel : class
             where TEnum : struct, Enum
         {
-            string propertyId = htmlHelper.IdFor(propertyExpression);
-            string propertyName = htmlHelper.NameFor(propertyExpression);
+            string propertyId = idPrefix + htmlHelper.IdFor(propertyExpression);
+            string propertyName = idPrefix + htmlHelper.NameFor(propertyExpression);
             htmlHelper.ViewData.ModelState.TryGetValue(propertyName, out var modelStateEntry);
 
             // Normally we'd want to get our values from the post data first. However with a list of radio buttons we only
