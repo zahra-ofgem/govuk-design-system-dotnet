@@ -56,7 +56,8 @@ namespace GovUkDesignSystem
             int? rows = null,
             LabelViewModel labelOptions = null,
             HintViewModel hintOptions = null,
-            FormGroupViewModel formGroupOptions = null)
+            FormGroupViewModel formGroupOptions = null,
+            string idPrefix = null)
             where TModel : class
         {
             return await CharacterCountHtmlGenerator.GenerateHtml(
@@ -65,7 +66,8 @@ namespace GovUkDesignSystem
                 rows,
                 labelOptions,
                 hintOptions,
-                formGroupOptions);
+                formGroupOptions,
+                idPrefix);
         }
 
         public static async Task<IHtmlContent> GovUkCheckboxes(
@@ -81,6 +83,7 @@ namespace GovUkDesignSystem
             FieldsetViewModel fieldsetOptions = null,
             HintViewModel hintOptions = null,
             Dictionary<TEnum, Conditional> conditionalOptions = null,
+            string idPrefix = null)
             Dictionary<TEnum, LabelViewModel> labelOptions = null
             )
             where TModel : class
@@ -92,6 +95,7 @@ namespace GovUkDesignSystem
                 fieldsetOptions,
                 hintOptions,
                 conditionalOptions,
+                idPrefix,
                 labelOptions);
         }
 
@@ -120,8 +124,8 @@ namespace GovUkDesignSystem
             HintViewModel hintOptions = null,
             FieldsetViewModel fieldsetOptions = null,
             FormGroupViewModel formGroupOptions = null,
-            Dictionary<string, string> attributes = null
-            )
+            Dictionary<string, string> attributes = null,
+            string idPrefix = null)
             where TModel : class
         {
             return await DateInputHtmlGenerator.GenerateHtml(
@@ -132,7 +136,8 @@ namespace GovUkDesignSystem
                 hintOptions,
                 fieldsetOptions,
                 formGroupOptions,
-                attributes);
+                attributes,
+                idPrefix);
         }
 
         public static async Task<IHtmlContent> GovUkDetails(
@@ -259,7 +264,8 @@ namespace GovUkDesignSystem
             string classes = null,
             Dictionary<TEnum, HintViewModel> radioHints = null,
             Dictionary<TEnum, Conditional> conditionalOptions = null,
-            Dictionary<TEnum, LabelViewModel> labelOptions = null)
+            Dictionary<TEnum, LabelViewModel> labelOptions = null,
+            string idPrefix = null)
             where TModel : class
             where TEnum : struct, Enum
         {
@@ -271,7 +277,8 @@ namespace GovUkDesignSystem
                 classes,
                 radioHints,
                 conditionalOptions,
-                labelOptions);
+                labelOptions,
+                idPrefix);
         }
 
         public static async Task<IHtmlContent> GovUkRadioItem(
@@ -322,7 +329,8 @@ namespace GovUkDesignSystem
             int? rows = null,
             LabelViewModel labelOptions = null,
             HintViewModel hintOptions = null,
-            FormGroupViewModel formGroupOptions = null)
+            FormGroupViewModel formGroupOptions = null,
+            string idPrefix = null)
             where TModel : class
         {
             return await TextAreaHtmlGenerator.GenerateHtml(
@@ -331,7 +339,8 @@ namespace GovUkDesignSystem
                 rows,
                 labelOptions,
                 hintOptions,
-                formGroupOptions);
+                formGroupOptions,
+                idPrefix);
         }
 
         public static async Task<IHtmlContent> GovUkTextInput(
@@ -348,7 +357,8 @@ namespace GovUkDesignSystem
             HintViewModel hintOptions = null,
             FormGroupViewModel formGroupOptions = null,
             string classes = null,
-            TextInputAppendixViewModel textInputAppendix = null)
+            TextInputAppendixViewModel textInputAppendix = null,
+            string idPrefix = null)
             where TModel : class
         {
             return await TextInputHtmlGenerator.GenerateHtml(
@@ -358,7 +368,8 @@ namespace GovUkDesignSystem
                 hintOptions,
                 formGroupOptions,
                 classes,
-                textInputAppendix);
+                textInputAppendix,
+                idPrefix);
         }
 
         public static async Task<IHtmlContent> GovUkTextInputFor<TModel>(
@@ -368,7 +379,8 @@ namespace GovUkDesignSystem
             HintViewModel hintOptions = null,
             FormGroupViewModel formGroupOptions = null,
             string classes = null,
-            TextInputAppendixViewModel textInputAppendix = null)
+            TextInputAppendixViewModel textInputAppendix = null,
+            string idPrefix = null)
             where TModel : class
         {
             return await TextInputHtmlGenerator.GenerateHtml(
@@ -378,7 +390,8 @@ namespace GovUkDesignSystem
                 hintOptions,
                 formGroupOptions,
                 classes,
-                textInputAppendix);
+                textInputAppendix,
+                idPrefix);
         }
 
         public static async Task<IHtmlContent> GovUkTextInputFor<TModel>(
@@ -388,7 +401,8 @@ namespace GovUkDesignSystem
             HintViewModel hintOptions = null,
             FormGroupViewModel formGroupOptions = null,
             string classes = null,
-            TextInputAppendixViewModel textInputAppendix = null)
+            TextInputAppendixViewModel textInputAppendix = null,
+            string idPrefix = null)
             where TModel : class
         {
             return await TextInputHtmlGenerator.GenerateHtml(
@@ -398,7 +412,8 @@ namespace GovUkDesignSystem
                 hintOptions,
                 formGroupOptions,
                 classes,
-                textInputAppendix);
+                textInputAppendix,
+                idPrefix);
         }
 
         public static async Task<IHtmlContent> GovUkFileUpload(
@@ -414,7 +429,8 @@ namespace GovUkDesignSystem
             LabelViewModel labelOptions = null,
             HintViewModel hintOptions = null,
             FormGroupViewModel formGroupOptions = null,
-            string classes = null)
+            string classes = null,
+            string idPrefix = null)
             where TModel : class
         {
             return await FileUploadHtmlGenerator.GenerateHtml(
@@ -423,7 +439,8 @@ namespace GovUkDesignSystem
                 labelOptions,
                 hintOptions,
                 formGroupOptions,
-                classes);
+                classes,
+                idPrefix);
         }
     }
 }

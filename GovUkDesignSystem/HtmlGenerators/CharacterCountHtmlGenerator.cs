@@ -18,7 +18,8 @@ namespace GovUkDesignSystem.HtmlGenerators
             int? rows = null,
             LabelViewModel labelOptions = null,
             HintViewModel hintOptions = null,
-            FormGroupViewModel formGroupOptions = null
+            FormGroupViewModel formGroupOptions = null,
+            string idPrefix = null
         )
             where TModel : class
         {
@@ -26,8 +27,8 @@ namespace GovUkDesignSystem.HtmlGenerators
             ThrowIfPropertyDoesNotHaveCharacterCountAttribute(property);
             int maximumCharacters = GetMaximumCharacters(property);
 
-            string propertyId = htmlHelper.IdFor(propertyExpression);
-            string propertyName = htmlHelper.NameFor(propertyExpression);
+            string propertyId = idPrefix + htmlHelper.IdFor(propertyExpression);
+            string propertyName = idPrefix + htmlHelper.NameFor(propertyExpression);
             htmlHelper.ViewData.ModelState.TryGetValue(propertyName, out var modelStateEntry);
 
             // Get the value to put in the input from the post data if possible, otherwise use the value in the model
