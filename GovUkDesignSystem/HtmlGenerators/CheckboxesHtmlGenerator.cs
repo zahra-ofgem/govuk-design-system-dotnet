@@ -20,7 +20,7 @@ namespace GovUkDesignSystem.HtmlGenerators
             FieldsetViewModel fieldsetOptions = null,
             HintViewModel hintOptions = null,
             Dictionary<TEnum, Conditional> conditionalOptions = null,
-            string idPrefix = null)
+            string idPrefix = null,
             Dictionary<TEnum, LabelViewModel> labelOptions = null)
             where TModel : class
             where TEnum : Enum
