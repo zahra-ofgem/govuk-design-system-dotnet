@@ -84,6 +84,8 @@ namespace GovUkDesignSystem
             HintViewModel hintOptions = null,
             Dictionary<TEnum, Conditional> conditionalOptions = null,
             string idPrefix = null)
+            Dictionary<TEnum, LabelViewModel> labelOptions = null
+            )
             where TModel : class
             where TEnum : Enum
         {
@@ -93,7 +95,8 @@ namespace GovUkDesignSystem
                 fieldsetOptions,
                 hintOptions,
                 conditionalOptions,
-                idPrefix);
+                idPrefix,
+                labelOptions);
         }
 
         public static async Task<IHtmlContent> GovUkCheckboxItem(

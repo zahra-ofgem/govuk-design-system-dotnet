@@ -21,6 +21,7 @@ namespace GovUkDesignSystem.HtmlGenerators
             HintViewModel hintOptions = null,
             Dictionary<TEnum, Conditional> conditionalOptions = null,
             string idPrefix = null)
+            Dictionary<TEnum, LabelViewModel> labelOptions = null)
             where TModel : class
             where TEnum : Enum
         {
@@ -38,17 +39,19 @@ namespace GovUkDesignSystem.HtmlGenerators
                 .Select(enumValue =>
                 {
                     var isEnumValueInListOfCurrentlySelectedValues = selectedValues.Contains(enumValue);
-                    string checkboxLabelText = GovUkRadioCheckboxLabelTextAttribute.GetLabelText(enumValue);
-
+                    if (labelOptions == null || !labelOptions.TryGetValue(enumValue, out LabelViewModel checkboxLabelViewModel))
+                    {
+                        checkboxLabelViewModel = new LabelViewModel
+                        {
+                            Text = GovUkRadioCheckboxLabelTextAttribute.GetLabelText(enumValue)
+                        };
+                    }
                     var checkboxItemViewModel = new CheckboxItemViewModel
                     {
                         Value = enumValue.ToString(),
                         Id = $"{propertyName}_{enumValue}",
                         Checked = isEnumValueInListOfCurrentlySelectedValues,
-                        Label = new LabelViewModel
-                        {
-                            Text = checkboxLabelText
-                        }
+                        Label = checkboxLabelViewModel
                     };
 
                     if (conditionalOptions != null && conditionalOptions.TryGetValue(enumValue, out Conditional conditional))
